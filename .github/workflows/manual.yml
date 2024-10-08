@@ -26,10 +26,10 @@ jobs:
 
     - name: Build the code
       run: |
-        g++ main.cpp -o main
+        g++ main.cpp -o ./buildLocal/main
 
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
       with:
         name: main-${{ matrix.os }}
-        path: ./build/factorial.*
+        path: ./buildLocal/main.*
