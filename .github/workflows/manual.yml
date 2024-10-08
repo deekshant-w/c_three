@@ -26,7 +26,7 @@ jobs:
 
     - name: Build the code
       run: |
-        g++ main.cpp -o main
+        g++ -static -static-libgcc -static-libstdc++ -o main main.cpp
 
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
