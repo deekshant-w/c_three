@@ -1,21 +1,35 @@
 # This is a basic workflow that is manually triggered
 
-name: Manual workflow
+name: C++ Build
 
 # Controls when the action will run. Workflow runs when manually triggered using the UI
 # or API.
 on:
   workflow_dispatch
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "greet"
-  greet:
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+  build:
+    strategy:
+      matrix:
+        os: [windows-latest]
+        # os: [ubuntu-latest, macos-latest, windows-latest]
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
+    runs-on: ${{ matrix.os }}
+
     steps:
-    # Runs a single command using the runners shell
-    - name: Send greeting
-      run: echo "Hello World"
+    - uses: actions/checkout@v2
+
+    - name: Setup Cpp
+      uses: aminya/setup-cpp@v1
+      with:
+        compiler: gcc
+
+    - name: Build the code
+      run: |
+        g++ main.cpp -o main
+
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: main-${{ matrix.os }}
+        path: ./build/factorial.*
