@@ -28,9 +28,11 @@ jobs:
       with:
         compiler: gcc
 
+        # g++ -static -static-libgcc -static-libstdc++ -o main main.cpp
     - name: Build the code
       run: |
-        g++ -static -static-libgcc -static-libstdc++ -o main main.cpp
+        echo ${{ matrix.os }}
+        g++ -o main main.cpp -static-libstdc++ -stdlib=libc++
 
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
